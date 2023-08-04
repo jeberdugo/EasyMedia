@@ -1,0 +1,132 @@
+/* Style the navigation menu */
+.topnav {
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    
+    width: 100%;
+    background-color: transparent;
+  }
+  
+  /* Hide the links inside the navigation menu (except for logo/home) */
+  #myLinks {
+    display: block;
+    position:static;
+    margin-left: auto;
+    z-index: 9999;
+    color: black;
+    width: fit-content;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    
+  }
+
+  #logoName{
+    color: black; 
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  
+  /* Style navigation menu links */
+  .topnav a {
+    color: black;
+    padding: 14px 14px 5px 14px;
+    text-decoration: none;
+    font-size: 13px;
+    display: block;
+  }
+
+  /* Style navigation menu links */
+  .topnav p {
+    color: black;
+    padding-left: 14px;
+    padding-top: 10px;
+    margin-bottom: 2px;
+    text-decoration: none;
+    font-size: 15px;
+    display: block;
+  }
+
+  .topnav hr {
+    
+    margin: 0 8px;
+    color: #DDDADA;
+    
+  }
+  
+  
+  /* Style the hamburger menu */
+  .topnav a.icon {
+    background: transparent;
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  
+  /* Add a grey background color on mouse-over */
+  .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  /* Style the active link (or home/logo) */
+  .active {
+    background-color: white;
+    color: black;
+  }
+
+  #messages{
+    height: 100px;
+  }
+
+  #btn-share {
+	margin-top: 10%;
+	font-size: 20px;
+    width: 30%;
+	border-radius: 20PX !important;
+	border-bottom: none !important;
+}
+
+.img-empty{
+    margin-top: 40%;
+}
+.msg-empty{
+    margin-top: 5%;
+    color: #333333B2;
+}
+
+.card{
+    border-radius: 16px;
+    border: 1px solid #5F5E5E;
+    margin-top: 10%;
+    background-color: #5F5E5E;
+    .card-header{
+        border: none;
+        background-color: #58BCDB;
+        border-start-end-radius: 16px;
+        border-top-left-radius: 16px;
+    }
+    .card-body{
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+        background-color: #5F5E5E;
+        font-size: 14px;
+        color: #EBEBEB;
+    }
+    .card-footer{
+        padding: 0;
+        background-color: transparent;
+        margin-bottom: 0 !important;
+        font-size: 14px;
+        border-top: none;
+    }
+    h5{
+        color: white;
+        font-size: 16px;
+    }
+}
