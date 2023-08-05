@@ -1,0 +1,123 @@
+<section class="ftco-section">
+    <div class="container">
+      <div class="row justify-content-center">
+        <img id="img-main" src="assets/image_main.png" alt="" />
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+          <div class="login-wrap">
+            <h1 class="text-center bold white">Easy Media</h1>
+            <p class="text-center cyan">Now, share is easy</p>
+            <p class="text-center white">Sign Up</p>
+            <form [formGroup]="formRegister" (ngSubmit)="register()" class="login-form">
+                <div class="form-group line">
+                    <label for="name">Full name</label>
+                    <input
+                      type="text"
+                      name="name"
+                      formControlName="name"
+                      class="form-control"
+                      placeholder="Camilo Cifuentes"
+                    />
+                  </div>
+                  <span class="error" *ngIf="this.formRegister.get('name')?.errors?.['required'] && submitted">
+                      This field is required
+                    </span>
+              <div class="form-group line">
+                <label for="email">Email</label>
+                <input
+                  type="text"
+                  name="email"
+                  formControlName="email"
+                  class="form-control"
+                  placeholder="example@email.com"
+                />
+              </div>
+              <span class="error" *ngIf="this.formRegister.get('email')?.errors?.['required'] && submitted">
+                  This field is required
+                </span>
+                <span class="error" *ngIf="this.formRegister.get('email')?.errors?.['email'] && submitted">
+                  Please provide a valid email
+                </span>
+              <div class="form-group line">
+                <label for="password">Password</label>
+                <div class="input-group">
+                  <input
+                  [type]="fieldTextType ? 'text' : 'password'"
+                    id="password"
+                    formControlName="password"
+                    class="form-control"
+                    placeholder="•••••••"
+                  />
+                  <div class="input-group-append">
+                    <button
+                      class="btn btn-toggle-password"
+                      type="button"
+                      id="togglePassword"
+                      (click)="togglePasswordVisibility('')" 
+                    >
+                    
+                      <img src="assets/eye-regular.png" *ngIf="!fieldTextType" height="15px" alt="" />
+                      <img src="assets/eye-close.png" *ngIf="fieldTextType" height="15px" alt="" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <span class="error" *ngIf="this.formRegister.get('password')?.errors?.['required'] && submitted">
+                  This field is required
+                </span>
+                <span class="error" *ngIf="this.formRegister.get('password')?.errors?.['minlength'] && submitted">
+                  Password must contain at least eight characters
+                </span>
+
+                <div class="form-group line">
+                    <label for="password">Confirm Password</label>
+                    <div class="input-group">
+                      <input
+                      [type]="fieldTextTypeConfirm ? 'text' : 'password'"
+                        formControlName="confirmPassword"
+                        class="form-control"
+                        placeholder="•••••••"
+                      />
+                      <div class="input-group-append">
+                        <button
+                          class="btn btn-toggle-password"
+                          type="button"
+                          (click)="togglePasswordVisibility('confirm')" 
+                        >
+                        
+                          <img src="assets/eye-regular.png" *ngIf="!fieldTextType" height="15px" alt="" />
+                          <img src="assets/eye-close.png" *ngIf="fieldTextType" height="15px" alt="" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <span class="error" *ngIf="this.formRegister.get('password')?.errors?.['required'] && submitted">
+                    This field is required
+                  </span>
+                  <span class="error" *ngIf="formRegister.get('confirmPassword')?.errors?.['notequal'] && submitted">
+                      Password must match
+                    </span>
+                   
+
+              <div class="form-group">
+                <button
+                  type="submit"
+                  id="btn-signup"
+                  class="btn form-control btn-primary rounded submit px-3"
+                >
+                  SIGN UP
+                </button>
+              </div>
+            </form>
+            <div class="w-100 right mt-4 text">
+              <p class="mb-0 small">
+                Already have an account? <a routerLink="" class="cyan">Login</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
