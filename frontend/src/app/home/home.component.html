@@ -78,13 +78,13 @@
                 class="error"
                 *ngIf="this.formCreateMessage.get('messages')?.errors?.['maxlenght'] && submitted"
               >
-                Please provide a valid email
+                Too long
               </span>
               <div class="form-group right">
                 <button
                   type="submit"
                   id="btn-share"
-                  class="btn form-control btn-primary rounded submit px-3"
+                  class="btn form-control btn-primary rounded submit px-3" (click)="post"
                 >
                   SHARE
                 </button>
@@ -151,7 +151,7 @@
 
                 <input
                   type="date"
-                  name="date"
+                  name="date" (change)="filterMyMessages()"
                   [max]="todayDate | date : 'yyyy-MM-dd'"
                   formControlName="date"
                   class="form-control"
@@ -185,9 +185,12 @@
                 </div>
               </div>
             </div>
-            <pagination-controls *ngIf="myPosts.length > 0"
-              (pageChange)="p = $event"
-            ></pagination-controls>
+            <div class="text-center" style="bottom: 10px; position: fixed;" *ngIf="myPosts.length > 0">
+                <pagination-controls 
+                (pageChange)="p = $event"
+              ></pagination-controls>
+            </div>
+ 
           </div>
           <div class="message-wrap" *ngSwitchCase="'publications'">
             <form
@@ -255,9 +258,12 @@
                 </div>
               </div>
             </div>
-            <pagination-controls
-              (pageChange)="p = $event"
-            ></pagination-controls>
+            <div class="text-center" style="bottom: 10px; position: fixed;" *ngIf="posts.length > 0">
+                <pagination-controls 
+                (pageChange)="p = $event"
+              ></pagination-controls>
+            </div>
+            
           </div>
         </div>
       </div>

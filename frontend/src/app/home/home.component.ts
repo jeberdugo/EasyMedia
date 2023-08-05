@@ -36,6 +36,12 @@ export class HomeComponent implements OnInit {
   constructor(private service:PostService) { }
 
   ngOnInit(): void {
+    this.getMessages();
+
+    this.filterMyMessages();
+  }
+
+  getMessages(){
     this.service.getPosts()
     .subscribe(response => {
       this.posts = response;
@@ -57,9 +63,20 @@ export class HomeComponent implements OnInit {
   post(){
     this.submitted = true;
     
+    this.service.createPost(this.formCreateMessage.get('title')?.value, this.formCreateMessage?.get('messages')?.value)
+    .subscribe(response => {
+      this.posts = response;
+    });
+    
   }
 
   filterMyMessages(){
+    
+    this.service.getPostsByIdAndDate(this.formFilterMyMessages.get('date')?.value)
+    .subscribe(response => {
+      this.myPosts = response;
+      this.sizeMyPosts = Object.keys(this.myPosts).length;
+    });
 
   }
 
@@ -68,6 +85,22 @@ export class HomeComponent implements OnInit {
   }
   menuChange(menuElement: string){
     this.selectedMenu = menuElement;
+    console.log(this.selectedMenu);
+    this.menuUpdate();    
+  }
+
+  menuUpdate(){
+    if(this.selectedMenu === 'mypublications'){
+      this.menuTitle = "My Publications";
+      this.filterMyMessages();
+    }
+    if(this.selectedMenu === 'publications'){
+      this.menuTitle = "All Publications";
+      this.getMessages()
+    }
+    if(this.selectedMenu === 'create'){
+      this.menuTitle = "Create message";
+    }
   }
 
   logout(){
