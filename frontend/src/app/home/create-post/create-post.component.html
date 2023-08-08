@@ -1,0 +1,127 @@
+<h2 class="text-center white">
+    Create message
+  </h2>
+
+<div class="message-wrap">
+    <form
+      [formGroup]="formCreateMessage"
+      (ngSubmit)="post()"
+      class="login-form"
+    >
+      <div class="form-group">
+        <label for="title">Title messages</label>
+        <input
+          type="text"
+          name="title"
+          formControlName="title"
+          class="form-control"
+          placeholder="Your post title"
+        />
+      </div>
+      <span
+        class="error"
+        *ngIf="this.formCreateMessage.get('title')?.errors?.['required'] && submitted"
+      >
+        This field is required
+      </span>
+      <span
+        class="error"
+        *ngIf="this.formCreateMessage.get('title')?.errors?.['maxlenght'] && submitted"
+      >
+        Please provide a valid email
+      </span>
+      <div class="form-group">
+        <label for="messages">Messages</label>
+        <div class="input-group">
+          <textarea
+            type="text"
+            id="messages"
+            formControlName="messages"
+            class="form-control"
+            placeholder="Create message for share with your friends."
+          ></textarea>
+        </div>
+      </div>
+      <span
+        class="error"
+        *ngIf="this.formCreateMessage.get('messages')?.errors?.['required'] && submitted"
+      >
+        This field is required
+      </span>
+      <span
+        class="error"
+        *ngIf="this.formCreateMessage.get('messages')?.errors?.['maxlenght'] && submitted"
+      >
+        Too long
+      </span>
+      <div class="form-group right">
+        <button
+          type="submit"
+          id="btn-share"
+          class="btn form-control btn-primary rounded submit px-3" (click)="post" data-toggle="modal" data-target="#modalSuccess"
+        >
+          SHARE
+        </button>
+      </div>
+    </form>
+
+    <div class="card">
+      <div class="card-header">
+        <h5
+          class="card-title"
+          *ngIf="!this.formCreateMessage.get('title')?.value"
+        >
+          Create message for share with your friends.
+        </h5>
+        <h5 class="card-title">
+          {{ this.formCreateMessage.get("title")?.value }}
+        </h5>
+      </div>
+      <div class="card-body">
+        <p
+          class="card-text"
+          *ngIf="!this.formCreateMessage.get('messages')?.value"
+        >
+          Create message for share with your friends.
+        </p>
+        <p class="card-text">
+          {{ this.formCreateMessage.get("messages")?.value }}
+        </p>
+        <div class="card-footer">
+          <div class="col-6">
+            {{ todayDate | customDate }}
+          </div>
+          <div class="col-6"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+<div id="modalSuccess" class="modal text-center">
+  <div class="modal-content ">
+    <img src="assets/success_circle.png" class="img-modal" alt="">
+    <p>Post Created</p>
+    <div class="right">
+        <button class="btn-modal" (click)="closeModal()">
+            OK
+          </button>
+    </div>
+    
+  </div>
+  
+</div>
+
+<div id="modalClose" class="modal text-center">
+    <div class="modal-content ">
+      <img src="assets/close_circle.png" class="img-modal" alt="">
+      <div class="right">
+        <button class="btn-modal" (close)="closeModalClose()">
+            OK
+          </button>
+    </div>
+    </div>
+    
+  </div>

@@ -30,7 +30,7 @@ app.post('/login', async (req, res) => {
     }
 
     // Create a JWT token
-    const token = generateAccessToken({ userId: user.id });;
+    const token = generateAccessToken({ userId: user.id, name: user.name });;
 
     res.json({ token });
   } catch (err) {

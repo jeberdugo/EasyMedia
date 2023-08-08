@@ -1,0 +1,80 @@
+<h2 class="text-center white">
+    All Publications
+  </h2>
+<div class="message-wrap">
+    <form
+      [formGroup]="formFilterMessages"
+      (ngSubmit)="filterMessages()"
+      class="login-form"
+    >
+      <div class="form-group">
+        <div class="row">
+          <div class="col-6">
+            <label for="word">Words to Search?</label>
+          </div>
+          <div
+            class="col-6 small white"
+            *ngIf="posts.length === 0"
+            style="margin-top: 15px; text-align: right"
+          >
+            No Results Here
+          </div>
+          <div
+            class="col-6 small white"
+            *ngIf="posts.length > 0"
+            style="margin-top: 15px; text-align: right"
+          >
+            Showing {{ p * 2 }}/{{ posts.length }}
+          </div>
+        </div>
+        <input
+          type="text"
+          name="word" [(ngModel)]="this.keyword"
+          (keyup)="filterMessages()"
+          formControlName="word"
+          class="form-control"
+          placeholder="Write a word"
+        />
+      </div>
+      <div class="form-group">
+        <label for="title">Date Select</label>
+        <input
+          type="date"
+          name="date" (change)="filterMessages()"
+          formControlName="date"
+          class="form-control"
+          placeholder="Select a date"
+        />
+      </div>
+    </form>
+
+    <div
+      class="card"
+      *ngFor="
+        let post of posts
+          | paginate : { itemsPerPage: 2, currentPage: p }
+      "
+    >
+      <div class="card-header">
+        <h5 class="card-title" [innerHTML]="post.title | highlight:keyword"></h5>
+      </div>
+      <div class="card-body">
+        <p class="card-text" [innerHTML]="post.content | highlight:keyword"></p>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-6">
+                    {{ post.createdAt | customDate }}
+                  </div>
+                  <div class="col-6 right" > <b>{{post.author}}</b></div>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+    <div class="text-center" style="bottom: 10px; position: fixed;" *ngIf="posts.length > 0">
+        <pagination-controls 
+        (pageChange)="p = $event"
+      ></pagination-controls>
+    </div>
+    
+  </div>

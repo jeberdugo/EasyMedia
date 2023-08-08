@@ -26,7 +26,21 @@ export class PostService {
   }
 
   getPostsByWordAndDate(word: string, date:string){
-    return this.httpClient.get(`${this.url}/post/${word}/${date}`);
+    const headers = { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+    if(date){
+      if(word){
+    return this.httpClient.get(`${this.url}/post/${word}/${date}`, { headers });}
+    else{
+      return this.httpClient.get(`${this.url}/post/null/${date}`, { headers });
+    }
+  }
+    else{
+      if(word){
+      return this.httpClient.get(`${this.url}/post/${word}/null`, { headers });}
+      else{
+        return this.httpClient.get(`${this.url}/post/null/null`, { headers });
+      }
+    }
   }
 
   createPost(title: string, content: string): Observable<any> {

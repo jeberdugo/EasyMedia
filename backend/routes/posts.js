@@ -26,6 +26,10 @@ const verifyToken = (req, res, next) => {
 app.get('/', verifyToken , async (req, res) => {
   try {
     const posts = await Post.findAll({ order: [['timestamp', 'DESC']] });
+    for(post in posts){
+      const user = await User.findByPk(posts[post].author);
+      posts[post].author = user.name;
+    }
     res.json(posts);
   } catch (err) {
     res.status(500).json({ error: 'Error retrieving posts' });
@@ -46,6 +50,7 @@ app.get('/fecha/:date', verifyToken, async (req, res) => {
     const startDate = new Date(date);
     const endDate = new Date(date);
     endDate.setDate(endDate.getDate() + 1);
+    console.log(startDate);
 
     try {
       const posts = await Post.findAll({
@@ -58,6 +63,10 @@ app.get('/fecha/:date', verifyToken, async (req, res) => {
         },
         order: [['timestamp', 'DESC']],
       });
+      for(post in posts){
+        const user = await User.findByPk(posts[post].author);
+        posts[post].author = user.name;
+      }
 
       res.json(posts);
     } catch (err) {
@@ -66,6 +75,10 @@ app.get('/fecha/:date', verifyToken, async (req, res) => {
   } else {
     try {
       const posts = await Post.findAll({ where: { author }, order: [['timestamp', 'DESC']] });
+      for(post in posts){
+        const user = await User.findByPk(posts[post].author);
+        posts[post].author = user.name;
+      }
       res.json(posts);
     } catch (err) {
       res.status(500).json({ error: 'Error retrieving user posts' + err });
@@ -91,15 +104,18 @@ app.get('/:word/:date', verifyToken, async (req, res) => {
     try {
       const posts = await Post.findAll({
         where: {
-          whereClause,
+          
           timestamp: {
             [Op.gte]: startDate,
             [Op.lt]: endDate,
-          },
+          }
         },
         order: [['timestamp', 'DESC']],
-      });
-
+      },whereClause);
+      for(post in posts){
+        const user = await User.findByPk(posts[post].author);
+        posts[post].author = user.name;
+      }
       res.json(posts);
     } catch (err) {
       res.status(500).json({ error: 'Error retrieving user posts' + err });
@@ -108,9 +124,13 @@ app.get('/:word/:date', verifyToken, async (req, res) => {
   else{
     try {
       const posts = await Post.findAll({ where: whereClause });
+      for(post in posts){
+        const user = await User.findByPk(posts[post].author);
+        posts[post].author = user.name;
+      }
       res.json(posts);
     } catch (err) {
-      res.status(500).json({ error: 'Error retrieving posts.' });
+      res.status(500).json({ error: 'Error retrieving posts.' + err});
     }
   }
 });

@@ -55,6 +55,7 @@ export class RegisterComponent implements OnInit {
         .subscribe(
           (response: any) => {
             console.log('User registered successfully:', response);
+            this.login();
             // Add any additional logic here (e.g., navigate to a different page)
           },
           (error: any) => {

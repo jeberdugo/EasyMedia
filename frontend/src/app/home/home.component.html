@@ -5,11 +5,11 @@
   >
   <!-- Navigation links (hidden by default) -->
   <div id="myLinks" *ngIf="menuOn">
-    <p>Camilo Cifuentes</p>
+    <p>{{name}}</p>
     <hr />
-    <a (click)="menuChange('create')">Create Publication</a>
-    <a (click)="menuChange('mypublications')">My Publications</a>
-    <a (click)="menuChange('publications')">See All Publications</a>
+    <a routerLink="create-post">Create Publication</a>
+    <a routerLink="my-posts">My Publications</a>
+    <a routerLink="all-posts">See All Publications</a>
     <a (click)="logout()">Logout</a>
   </div>
   <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
@@ -19,254 +19,16 @@
 </div>
 
 <div style="margin-top: 70px"></div>
-<h2 class="text-center white">
-  {{ menuTitle }}
-</h2>
 
 <section class="msg-section" (click)="toogleMenu('body')">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-6 col-lg-4">
-        <div [ngSwitch]="selectedMenu">
-          <div class="message-wrap" *ngSwitchCase="'create'">
-            <form
-              [formGroup]="formCreateMessage"
-              (ngSubmit)="post()"
-              class="login-form"
-            >
-              <div class="form-group">
-                <label for="title">Title messages</label>
-                <input
-                  type="text"
-                  name="title"
-                  formControlName="title"
-                  class="form-control"
-                  placeholder="Your post title"
-                />
-              </div>
-              <span
-                class="error"
-                *ngIf="this.formCreateMessage.get('title')?.errors?.['required'] && submitted"
-              >
-                This field is required
-              </span>
-              <span
-                class="error"
-                *ngIf="this.formCreateMessage.get('title')?.errors?.['maxlenght'] && submitted"
-              >
-                Please provide a valid email
-              </span>
-              <div class="form-group">
-                <label for="messages">Messages</label>
-                <div class="input-group">
-                  <textarea
-                    type="text"
-                    id="messages"
-                    formControlName="messages"
-                    class="form-control"
-                    placeholder="Create message for share with your friends."
-                  ></textarea>
-                </div>
-              </div>
-              <span
-                class="error"
-                *ngIf="this.formCreateMessage.get('messages')?.errors?.['required'] && submitted"
-              >
-                This field is required
-              </span>
-              <span
-                class="error"
-                *ngIf="this.formCreateMessage.get('messages')?.errors?.['maxlenght'] && submitted"
-              >
-                Too long
-              </span>
-              <div class="form-group right">
-                <button
-                  type="submit"
-                  id="btn-share"
-                  class="btn form-control btn-primary rounded submit px-3" (click)="post"
-                >
-                  SHARE
-                </button>
-              </div>
-            </form>
-
-            <div class="card">
-              <div class="card-header">
-                <h5
-                  class="card-title"
-                  *ngIf="!this.formCreateMessage.get('title')?.value"
-                >
-                  Create message for share with your friends.
-                </h5>
-                <h5 class="card-title">
-                  {{ this.formCreateMessage.get("title")?.value }}
-                </h5>
-              </div>
-              <div class="card-body">
-                <p
-                  class="card-text"
-                  *ngIf="!this.formCreateMessage.get('messages')?.value"
-                >
-                  Create message for share with your friends.
-                </p>
-                <p class="card-text">
-                  {{ this.formCreateMessage.get("messages")?.value }}
-                </p>
-                <div class="card-footer">
-                  <div class="col-6">
-                    {{ todayDate | customDate }}
-                  </div>
-                  <div class="col-6"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="message-wrap" *ngSwitchCase="'mypublications'">
-            <form
-              [formGroup]="formFilterMyMessages"
-              (ngSubmit)="filterMyMessages()"
-              class="login-form"
-            >
-              <div class="form-group">
-                <div class="row">
-                  <div class="col-6">
-                    <label for="title">Date Select</label>
-                  </div>
-                  <div
-                    class="col-6 small white"
-                    *ngIf="sizeMyPosts === 0"
-                    style="margin-top: 15px; text-align: right"
-                  >
-                    No Results Here
-                  </div>
-                  <div
-                    class="col-6 small white"
-                    *ngIf="myPosts.length > 0"
-                    style="margin-top: 15px; text-align: right"
-                  >
-                    Showing {{ p * 2 }}/{{ myPosts.length }}
-                  </div>
-                </div>
-
-                <input
-                  type="date"
-                  name="date" (change)="filterMyMessages()"
-                  [max]="todayDate | date : 'yyyy-MM-dd'"
-                  formControlName="date"
-                  class="form-control"
-                  placeholder="Select a date "
-                />
-              </div>
-            </form>
-
-            <div class="text-center" *ngIf="sizeMyPosts === 0">
-                <img class="img-empty" src="assets/faces.png" alt="">
-                <h4 class="msg-empty">Nothing to see here</h4>
-            </div>
-
-            <div
-              class="card"
-              *ngFor="
-                let post of myPosts
-                  | paginate : { itemsPerPage: 2, currentPage: p }
-              "
-            >
-              <div class="card-header">
-                <h5 class="card-title">titulo</h5>
-              </div>
-              <div class="card-body">
-                <p class="card-text">{{ post.title }}</p>
-                <div class="card-footer">
-                  <div class="col-6">
-                    {{ todayDate | customDate }}
-                  </div>
-                  <div class="col-6"></div>
-                </div>
-              </div>
-            </div>
-            <div class="text-center" style="bottom: 10px; position: fixed;" *ngIf="myPosts.length > 0">
-                <pagination-controls 
-                (pageChange)="p = $event"
-              ></pagination-controls>
-            </div>
- 
-          </div>
-          <div class="message-wrap" *ngSwitchCase="'publications'">
-            <form
-              [formGroup]="formFilterMessages"
-              (ngSubmit)="filterMessages()"
-              class="login-form"
-            >
-              <div class="form-group">
-                <div class="row">
-                  <div class="col-6">
-                    <label for="word">Words to Search?</label>
-                  </div>
-                  <div
-                    class="col-6 small white"
-                    *ngIf="posts.length === 0"
-                    style="margin-top: 15px; text-align: right"
-                  >
-                    No Results Here
-                  </div>
-                  <div
-                    class="col-6 small white"
-                    *ngIf="posts.length > 0"
-                    style="margin-top: 15px; text-align: right"
-                  >
-                    Showing {{ p * 2 }}/{{ posts.length }}
-                  </div>
-                </div>
-                <input
-                  type="text"
-                  name="word"
-                  formControlName="word"
-                  class="form-control"
-                  placeholder="Write a word"
-                />
-              </div>
-              <div class="form-group">
-                <label for="title">Date Select</label>
-                <input
-                  type="date"
-                  name="date"
-                  formControlName="date"
-                  class="form-control"
-                  placeholder="Select a date"
-                />
-              </div>
-            </form>
-
-            <div
-              class="card"
-              *ngFor="
-                let post of posts
-                  | paginate : { itemsPerPage: 2, currentPage: p }
-              "
-            >
-              <div class="card-header">
-                <h5 class="card-title">titulo</h5>
-              </div>
-              <div class="card-body">
-                <p class="card-text">{{ post.title }}</p>
-                <div class="card-footer">
-                  <div class="col-6">
-                    {{ todayDate | customDate }}
-                  </div>
-                  <div class="col-6"></div>
-                </div>
-              </div>
-            </div>
-            <div class="text-center" style="bottom: 10px; position: fixed;" *ngIf="posts.length > 0">
-                <pagination-controls 
-                (pageChange)="p = $event"
-              ></pagination-controls>
-            </div>
-            
-          </div>
-        </div>
+        <router-outlet></router-outlet>
       </div>
     </div>
   </div>
 </section>
+
+  
+

@@ -1,0 +1,73 @@
+<h2 class="text-center white">
+    My Publications
+  </h2>
+<div class="message-wrap" >
+    <form
+      [formGroup]="formFilterMyMessages"
+      (ngSubmit)="filterMyMessages()"
+      class="login-form"
+    >
+      <div class="form-group">
+        <div class="row">
+          <div class="col-6">
+            <label for="title">Date Select</label>
+          </div>
+          <div
+            class="col-6 small white"
+            *ngIf="sizeMyPosts === 0"
+            style="margin-top: 15px; text-align: right"
+          >
+            No Results Here
+          </div>
+          <div
+            class="col-6 small white"
+            *ngIf="myPosts.length > 0"
+            style="margin-top: 15px; text-align: right"
+          >
+            Showing {{ p * 2 }}/{{ myPosts.length }}
+          </div>
+        </div>
+
+        <input
+          type="date"
+          name="date" (change)="filterMyMessages()"
+          [max]="todayDate | date : 'yyyy-MM-dd'"
+          formControlName="date"
+          class="form-control"
+          placeholder="Select a date "
+        />
+      </div>
+    </form>
+
+    <div class="text-center" *ngIf="sizeMyPosts === 0">
+        <img class="img-empty" src="assets/faces.png" alt="">
+        <h4 class="msg-empty">Nothing to see here</h4>
+    </div>
+
+    <div
+      class="card"
+      *ngFor="
+        let post of myPosts
+          | paginate : { itemsPerPage: 2, currentPage: p }
+      "
+    >
+      <div class="card-header">
+        <h5 class="card-title">titulo</h5>
+      </div>
+      <div class="card-body">
+        <p class="card-text">{{ post.title }}</p>
+        <div class="card-footer">
+          <div class="col-6">
+            {{ todayDate | customDate }}
+          </div>
+          <div class="col-6"></div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center" style="bottom: 10px; position: fixed;" *ngIf="myPosts.length > 0">
+        <pagination-controls 
+        (pageChange)="p = $event"
+      ></pagination-controls>
+    </div>
+
+  </div>
